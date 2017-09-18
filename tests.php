@@ -2,6 +2,7 @@
 /**
  * Created by PhpStorm.
  * User: gui
+ * Email:liaodeity@foxmail.com
  * Date: 2017/9/18
  */
 
@@ -16,11 +17,7 @@ class tests
         $type = 'tencent';
         $sns  = \Liaodeity\SyncLogin\ThinkOauth::getInstance ($type, self::config ());
         echo $sns->getRequestCodeURL ();
-        $url = 'http://www.example.com/path?1';
-
-        // 在 5.4.7 之前这会输出路径 "//www.example.com/path"
-        $url = parse_url ($url);
-        var_dump ($url);
+        //TODO 使用跳转函数处理跳转
     }
 
     public static function config()

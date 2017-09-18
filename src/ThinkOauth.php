@@ -14,6 +14,12 @@ namespace Liaodeity\SyncLogin;
 
 use Exception;
 
+/**
+ * 2017-09-18 修改
+ * Email:liaodeity@foxmail.com
+ * Class ThinkOauth
+ * @package Liaodeity\SyncLogin
+ */
 abstract class ThinkOauth
 {
     /**
