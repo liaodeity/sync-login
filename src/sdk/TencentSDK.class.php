@@ -11,6 +11,8 @@
 // | TencentSDK.class.php 2013-02-25
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class TencentSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口
@@ -43,7 +45,7 @@ class TencentSDK extends ThinkOauth{
             'oauth_consumer_key' => $this->AppKey,
             'access_token'       => $this->Token['access_token'],
             'openid'             => $this->openid(),
-            'clientip'           => get_client_ip(),
+            'clientip'           => $this->getClientIp(),
             'oauth_version'      => '2.a',
             'scope'              => 'all',
             'format'             => 'json'

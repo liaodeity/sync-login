@@ -11,6 +11,8 @@
 // | SinaSDK.class.php 2013-03-01
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class DiandianSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口

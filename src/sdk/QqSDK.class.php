@@ -11,6 +11,8 @@
 // | QqSDK.class.php 2013-02-25
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class QqSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口
