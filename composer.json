@@ -3,7 +3,7 @@
   "description": "A third party login plugin",
   "homepage": "https://github.com/liaodeity/sync-login",
   "support": {
-    "source": "https://github.com/zqy234/terrytest"
+    "source": "https://github.com/liaodeity/sync-login"
   },
   "type": "composer-plugin",
   "license": "MIT",
