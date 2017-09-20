@@ -1,0 +1,18 @@
+{
+  "name": "liaodeity/sync-login",
+  "description": "A third party login plugin",
+  "homepage": "https://github.com/liaodeity/sync-login",
+  "support": {
+    "source": "https://github.com/zqy234/terrytest"
+  },
+  "type": "composer-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Liao ChunGui",
+      "email": "liaodeity@gmail.com"
+    }
+  ],
+  "minimum-stability": "develop",
+  "require": {}
+}
