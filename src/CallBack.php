@@ -11,6 +11,7 @@ namespace Liaodeity\SyncLogin;
 
 class CallBack
 {
+    protected $Token = [];
     /**
      *
      * @param       $config 配置
@@ -35,6 +36,7 @@ class CallBack
         }
 
         $token          = $sns->getAccessToken ($code, $extend);
+        $this->Token = $token;
         $syncLoginModel = new SyncLoginModel();
         if (method_exists ($syncLoginModel, $type)) {
             $user_info = $syncLoginModel->$type($token); //获取传递回来的用户信息
@@ -42,5 +44,10 @@ class CallBack
         } else {
             throw new \Exception('method not exists');
         }
+    }
+
+    public function getToken()
+    {
+        return $this->Token;
     }
 }
