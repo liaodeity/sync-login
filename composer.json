@@ -13,6 +13,11 @@
       "email": "liaodeity@gmail.com"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Liaodeity\\SyncLogin\\": "src/"
+    }
+  },
   "minimum-stability": "develop",
   "require": {}
 }
