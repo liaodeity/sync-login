@@ -5,7 +5,6 @@
   "support": {
     "source": "https://github.com/liaodeity/sync-login"
   },
-  "type": "composer-plugin",
   "license": "MIT",
   "authors": [
     {
