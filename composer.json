@@ -18,6 +18,6 @@
       "Liaodeity\\SyncLogin\\": "src/"
     }
   },
-  "minimum-stability": "develop",
+  "minimum-stability": "alpha",
   "require": {}
 }
