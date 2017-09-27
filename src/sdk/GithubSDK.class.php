@@ -11,6 +11,8 @@
 // | GithubSDK.class.php 2013-02-26
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class GithubSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口

@@ -11,6 +11,8 @@
 // | TaobaoSDK.class.php 2013-03-13
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class TaobaoSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口

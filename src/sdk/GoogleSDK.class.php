@@ -11,6 +11,8 @@
 // | GoogleSDK.class.php 2013-02-26
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class GoogleSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口

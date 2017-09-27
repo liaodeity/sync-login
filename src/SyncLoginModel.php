@@ -11,10 +11,16 @@ namespace Liaodeity\SyncLogin;
 use Exception;
 class SyncLoginModel
 {
+    protected $config = [];
+
+    public function setConfig($config)
+    {
+        $this->config = $config;
+    }
     //登录成功，获取腾讯QQ用户信息
     public function qq($token)
     {
-        $qq   = ThinkOauth::getInstance ('qq', $token);
+        $qq   = ThinkOauth::getInstance ('qq', $this->config,$token);
         $data = $qq->call ('user/get_user_info');
 
         if ($data['ret'] == 0) {
@@ -34,7 +40,7 @@ class SyncLoginModel
     public function tencent($token)
     {
 
-        $tencent = ThinkOauth::getInstance ('tencent', $token);
+        $tencent = ThinkOauth::getInstance ('tencent', $this->config,$token);
         $data    = $tencent->call ('user/info');
 
         if ($data['ret'] == 0) {
@@ -52,7 +58,7 @@ class SyncLoginModel
     //登录成功，获取新浪微博用户信息
     public function sina($token)
     {
-        $sina = ThinkOauth::getInstance ('sina', $token);
+        $sina = ThinkOauth::getInstance ('sina', $this->config,$token);
         $data = $sina->call ('users/show', "uid={$sina->openid()}");
 
         if ($data['error_code'] == 0) {
@@ -71,7 +77,7 @@ class SyncLoginModel
     //登录成功，获取网易微博用户信息
     public function t163($token)
     {
-        $t163 = ThinkOauth::getInstance ('t163', $token);
+        $t163 = ThinkOauth::getInstance ('t163', $this->config,$token);
         $data = $t163->call ('users/show');
 
         if ($data['error_code'] == 0) {
@@ -89,7 +95,7 @@ class SyncLoginModel
     //登录成功，获取人人网用户信息
     public function renren($token)
     {
-        $renren = ThinkOauth::getInstance ('renren', $token);
+        $renren = ThinkOauth::getInstance ('renren', $this->config,$token);
         $data   = $renren->call ('users.getInfo');
 
         if (!isset($data['error_code'])) {
@@ -107,7 +113,7 @@ class SyncLoginModel
     //登录成功，获取360用户信息
     public function x360($token)
     {
-        $x360 = ThinkOauth::getInstance ('x360', $token);
+        $x360 = ThinkOauth::getInstance ('x360', $this->config,$token);
         $data = $x360->call ('user/me');
 
         if ($data['error_code'] == 0) {
@@ -125,7 +131,7 @@ class SyncLoginModel
     //登录成功，获取豆瓣用户信息
     public function douban($token)
     {
-        $douban = ThinkOauth::getInstance ('douban', $token);
+        $douban = ThinkOauth::getInstance ('douban', $this->config,$token);
         $data   = $douban->call ('user/~me');
 
         if (empty($data['code'])) {
@@ -143,7 +149,7 @@ class SyncLoginModel
     //登录成功，获取Github用户信息
     public function github($token)
     {
-        $github = ThinkOauth::getInstance ('github', $token);
+        $github = ThinkOauth::getInstance ('github', $this->config,$token);
         $data   = $github->call ('user');
 
         if (empty($data['code'])) {
@@ -161,7 +167,7 @@ class SyncLoginModel
     //登录成功，获取Google用户信息
     public function google($token)
     {
-        $google = ThinkOauth::getInstance ('google', $token);
+        $google = ThinkOauth::getInstance ('google', $this->config,$token);
         $data   = $google->call ('userinfo');
 
         if (!empty($data['id'])) {
@@ -179,7 +185,7 @@ class SyncLoginModel
     //登录成功，获取微软用户信息
     public function msn($token)
     {
-        $msn  = ThinkOauth::getInstance ('msn', $token);
+        $msn  = ThinkOauth::getInstance ('msn', $this->config,$token);
         $data = $msn->call ('me');
 
         if (!empty($data['id'])) {
@@ -197,7 +203,7 @@ class SyncLoginModel
     //登录成功，获取点点用户信息
     public function diandian($token)
     {
-        $diandian = ThinkOauth::getInstance ('diandian', $token);
+        $diandian = ThinkOauth::getInstance ('diandian', $this->config,$token);
         $data     = $diandian->call ('user/info');
 
         if (!empty($data['meta']['status']) && $data['meta']['status'] == 200) {
@@ -215,7 +221,7 @@ class SyncLoginModel
     //登录成功，获取淘宝网用户信息
     public function taobao($token)
     {
-        $taobao = ThinkOauth::getInstance ('taobao', $token);
+        $taobao = ThinkOauth::getInstance ('taobao', $this->config,$token);
         $fields = 'user_id,nick,sex,buyer_credit,avatar,has_shop,vip_info';
         $data   = $taobao->call ('taobao.user.buyer.get', "fields={$fields}");
 
@@ -235,7 +241,7 @@ class SyncLoginModel
     //登录成功，获取百度用户信息
     public function baidu($token)
     {
-        $baidu = ThinkOauth::getInstance ('baidu', $token);
+        $baidu = ThinkOauth::getInstance ('baidu', $this->config,$token);
         $data  = $baidu->call ('passport/users/getLoggedInUser');
 
         if (!empty($data['uid'])) {
@@ -253,7 +259,7 @@ class SyncLoginModel
     //登录成功，获取开心网用户信息
     public function kaixin($token)
     {
-        $kaixin = ThinkOauth::getInstance ('kaixin', $token);
+        $kaixin = ThinkOauth::getInstance ('kaixin', $this->config,$token);
         $data   = $kaixin->call ('users/me');
 
         if (!empty($data['uid'])) {
@@ -271,7 +277,7 @@ class SyncLoginModel
     //登录成功，获取搜狐用户信息
     public function sohu($token)
     {
-        $sohu = ThinkOauth::getInstance ('sohu', $token);
+        $sohu = ThinkOauth::getInstance ('sohu', $this->config,$token);
         $data = $sohu->call ('i/prv/1/user/get-basic-info');
 
         if ('success' == $data['message'] && !empty($data['data'])) {

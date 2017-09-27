@@ -11,6 +11,8 @@
 // | MsnSDK.class.php 2013-02-27
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class MsnSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口

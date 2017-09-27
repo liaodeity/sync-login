@@ -11,6 +11,8 @@
 // | SohuSDK.class.php 2013-03-27
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class SohuSDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口

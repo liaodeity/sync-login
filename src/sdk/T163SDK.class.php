@@ -11,6 +11,8 @@
 // | T163SDK.class.php 2013-02-25
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class T163SDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口

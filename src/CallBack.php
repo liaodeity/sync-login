@@ -12,16 +12,17 @@ namespace Liaodeity\SyncLogin;
 class CallBack
 {
     protected $Token = [];
+
     /**
      *
-     * @param       $config 配置
+     * @param       $config  配置
      * @param array $request 所有传递参数
      * @return mixed
      * @throws \Exception
      */
     public function init($config, $request = [])
     {
-        if(empty($request))
+        if (empty($request))
             $request = $_REQUEST;
         $code = isset($request['code']) ? $request['code'] : '';
         $type = isset($request['type']) ? $request['type'] : '';
@@ -36,8 +37,9 @@ class CallBack
         }
 
         $token          = $sns->getAccessToken ($code, $extend);
-        $this->Token = $token;
+        $this->Token    = $token;
         $syncLoginModel = new SyncLoginModel();
+        $syncLoginModel->setConfig ($config);
         if (method_exists ($syncLoginModel, $type)) {
             $user_info = $syncLoginModel->$type($token); //获取传递回来的用户信息
             return $user_info;

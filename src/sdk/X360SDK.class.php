@@ -11,6 +11,8 @@
 // | X360SDK.class.php 2013-02-25
 // +----------------------------------------------------------------------
 
+use Liaodeity\SyncLogin\ThinkOauth;
+
 class X360SDK extends ThinkOauth{
     /**
      * 获取requestCode的api接口
