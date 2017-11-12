@@ -15,18 +15,18 @@ class CallBack
 
     /**
      *
-     * @param       $config  配置
+     * @param  array $config 配置
      * @param array $request 所有传递参数
      * @return mixed
      * @throws \Exception
      */
-    public function init($config, $request = [])
+    public function init ($config, $request = [])
     {
-        if (empty($request))
-            $request = $_REQUEST;
         $code = isset($request['code']) ? $request['code'] : '';
         $type = isset($request['type']) ? $request['type'] : '';
-        $sns  = ThinkOauth::getInstance ($type, $config);
+        if ($type == '')
+            throw new \Exception('type param to sdk is empty');
+        $sns = ThinkOauth::getInstance ($type, $config);
 
         //腾讯微博需传递的额外参数
         $extend = null;
@@ -48,7 +48,7 @@ class CallBack
         }
     }
 
-    public function getToken()
+    public function getToken ()
     {
         return $this->Token;
     }

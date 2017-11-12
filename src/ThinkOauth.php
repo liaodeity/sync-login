@@ -95,16 +95,16 @@ abstract class ThinkOauth
     private $Type = '';
 
     protected $Config = [
-        //'TENCENT_KEY'    => '11',
-        //'TENCENT_SECRET' => '2222',
-        //'CALLBACK_URL'   => 'http://ww.dkdk.com/?'
+        //'TENCENT_KEY'    => 'key',
+        //'TENCENT_SECRET' => 'secret',
+        //'CALLBACK_URL'   => 'http://www.example.com/callback'
     ];
 
     /**
      * 构造方法，配置应用信息
      * @param array $token
      */
-    public function __construct($token = null, $config = [])
+    public function __construct ($token = null, $config = [])
     {
         $this->setConfig ($config);
         //设置SDK类型
@@ -114,12 +114,12 @@ abstract class ThinkOauth
         //获取应用配置
         $config = $this->Config;
         $type   = strtoupper (substr ($class, 0, strlen ($class) - 3));
-        if (empty($config[ $type . '_KEY' ]) || empty($config[ $type . '_SECRET' ])) {
+        if (empty($config[$type . '_KEY']) || empty($config[$type . '_SECRET'])) {
             throw new Exception('Please configure the APP_KEY and APP_SECRET you requested');
         } else {
 
-            $this->AppKey    = $config[ $type . '_KEY' ];
-            $this->AppSecret = $config[ $type . '_SECRET' ];
+            $this->AppKey    = $config[$type . '_KEY'];
+            $this->AppSecret = $config[$type . '_SECRET'];
             $this->Token     = $token; //设置获取到的TOKEN
         }
     }
@@ -129,9 +129,13 @@ abstract class ThinkOauth
      * @static
      * @return mixed 返回Oauth
      */
-    public static function getInstance($type, $config, $token = null)
+    public static function getInstance ($type, $config, $token = null)
     {
         $name = ucfirst (strtolower ($type)) . 'SDK';
+        //判断是否存在SDK的class
+        if (!file_exists (__DIR__ . "/sdk/{$name}.class.php")) {
+            throw new Exception("{$name}.class.php is not exist");
+        }
         require_once "sdk/{$name}.class.php";
         if (class_exists ($name)) {
             return new $name($token, $config);
@@ -143,8 +147,9 @@ abstract class ThinkOauth
 
     /**
      * 初始化配置
+     * 回调地址
      */
-    private function config()
+    private function config ()
     {
         $url            = parse_url (isset($this->Config['CALLBACK_URL']) ? $this->Config['CALLBACK_URL'] : '');
         $scheme         = isset($url['scheme']) ? $url['scheme'] : '';
@@ -153,21 +158,13 @@ abstract class ThinkOauth
         $query          = isset($url['query']) ? $url['query'] : '';
         $callback       = $scheme . '://' . $host . $path . '?' . $query . '&type=' . strtolower ($this->Type);
         $this->Callback = $callback;
-        echo $callback . "\n";
-        /*        $config = C("THINK_SDK_{$this->Type}");
-                if(!empty($config['AUTHORIZE']))
-                    $this->Authorize = $config['AUTHORIZE'];
-                if(!empty($config['CALLBACK']))
-                    $this->Callback = $config['CALLBACK'];
-                else
-                    throw new Exception('请配置回调页面地址');*/
     }
 
-    public function setConfig($config = [])
+    public function setConfig ($config = [])
     {
         // to upper
         foreach ($config as $key => &$item) {
-            $this->Config[ strtoupper ($key) ] = $item;
+            $this->Config[strtoupper ($key)] = $item;
         }
         unset($config);
     }
@@ -175,7 +172,7 @@ abstract class ThinkOauth
     /**
      * 请求code
      */
-    public function getRequestCodeURL()
+    public function getRequestCodeURL ()
     {
         $this->config ();
         //Oauth 标准参数
@@ -202,7 +199,7 @@ abstract class ThinkOauth
      * 获取access_token
      * @param string $code 上一步请求到的code
      */
-    public function getAccessToken($code, $extend = null)
+    public function getAccessToken ($code, $extend = null)
     {
         $this->config ();
         $params = array(
@@ -214,6 +211,8 @@ abstract class ThinkOauth
         );
 
         $data        = $this->http ($this->GetAccessTokenURL, $params, 'POST');
+        if(is_null($extend))
+            $extend = [];
         $this->Token = $this->parseToken ($data, $extend);
 
         return $this->Token;
@@ -222,10 +221,10 @@ abstract class ThinkOauth
     /**
      * 合并默认参数和额外参数
      * @param array $params 默认参数
-     * @param       array   /string $param 额外参数
+     * @param       array /string $param 额外参数
      * @return array:
      */
-    protected function param($params, $param)
+    protected function param ($params, $param)
     {
         if (is_string ($param))
             parse_str ($param, $param);
@@ -239,19 +238,19 @@ abstract class ThinkOauth
      * @param  string $fix api后缀
      * @return string      请求的完整URL
      */
-    protected function url($api, $fix = '')
+    protected function url ($api, $fix = '')
     {
         return $this->ApiBase . $api . $fix;
     }
 
     /**
      * 发送HTTP请求方法，目前只支持CURL发送请求
-     * @param  string $url    请求URL
-     * @param  array  $params 请求参数
+     * @param  string $url 请求URL
+     * @param  array $params 请求参数
      * @param  string $method 请求方法GET/POST
      * @return array  $data   响应数据
      */
-    protected function http($url, $params, $method = 'GET', $header = array(), $multi = false)
+    protected function http ($url, $params, $method = 'GET', $header = array(), $multi = false)
     {
         $opts = array(
             CURLOPT_TIMEOUT        => 30,
@@ -264,14 +263,14 @@ abstract class ThinkOauth
         /* 根据请求类型设置特定参数 */
         switch (strtoupper ($method)) {
             case 'GET':
-                $opts[ CURLOPT_URL ] = $url . '?' . http_build_query ($params);
+                $opts[CURLOPT_URL] = $url . '?' . http_build_query ($params);
                 break;
             case 'POST':
                 //判断是否传输文件
-                $params                     = $multi ? $params : http_build_query ($params);
-                $opts[ CURLOPT_URL ]        = $url;
-                $opts[ CURLOPT_POST ]       = 1;
-                $opts[ CURLOPT_POSTFIELDS ] = $params;
+                $params                   = $multi ? $params : http_build_query ($params);
+                $opts[CURLOPT_URL]        = $url;
+                $opts[CURLOPT_POST]       = 1;
+                $opts[CURLOPT_POSTFIELDS] = $params;
                 break;
             default:
                 throw new Exception('不支持的请求方式！');
@@ -287,50 +286,54 @@ abstract class ThinkOauth
 
         return $data;
     }
+
     /**
      * 获取客户端IP地址
      * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
      * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
      * @return mixed
      */
-    protected function getClientIp($type = 0,$adv=false) {
-        $type       =  $type ? 1 : 0;
-        static $ip  =   NULL;
+    protected function getClientIp ($type = 0, $adv = false)
+    {
+        $type = $type ? 1 : 0;
+        static $ip = NULL;
         if ($ip !== NULL) return $ip[$type];
-        if($adv){
+        if ($adv) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                $pos    =   array_search('unknown',$arr);
-                if(false !== $pos) unset($arr[$pos]);
-                $ip     =   trim($arr[0]);
-            }elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-                $ip     =   $_SERVER['HTTP_CLIENT_IP'];
-            }elseif (isset($_SERVER['REMOTE_ADDR'])) {
-                $ip     =   $_SERVER['REMOTE_ADDR'];
+                $arr = explode (',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+                $pos = array_search ('unknown', $arr);
+                if (false !== $pos) unset($arr[$pos]);
+                $ip = trim ($arr[0]);
+            } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $ip = $_SERVER['HTTP_CLIENT_IP'];
+            } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+                $ip = $_SERVER['REMOTE_ADDR'];
             }
-        }elseif (isset($_SERVER['REMOTE_ADDR'])) {
-            $ip     =   $_SERVER['REMOTE_ADDR'];
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
         }
         // IP地址合法验证
-        $long = sprintf("%u",ip2long($ip));
+        $long = sprintf ("%u", ip2long ($ip));
         $ip   = $long ? array($ip, $long) : array('0.0.0.0', 0);
+
         return $ip[$type];
     }
+
     /**
      * 抽象方法，在SNSSDK中实现
      * 组装接口调用参数 并调用接口
      */
-    abstract protected function call($api, $param = '', $method = 'GET', $multi = false);
+    abstract protected function call ($api, $param = '', $method = 'GET', $multi = false);
 
     /**
      * 抽象方法，在SNSSDK中实现
      * 解析access_token方法请求后的返回值
      */
-    abstract protected function parseToken($result, $extend);
+    abstract protected function parseToken ($result, $extend);
 
     /**
      * 抽象方法，在SNSSDK中实现
      * 获取当前授权用户的SNS标识
      */
-    abstract public function openid();
+    abstract public function openid ();
 }
