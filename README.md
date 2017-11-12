@@ -15,7 +15,7 @@
 
 ## Composer安装
 ``` base
-$ composer require liaodeity/sync-login
+$ composer require liaodeity/sync-login dev-master
 ```
 
 ## key密钥配置
