@@ -13,12 +13,12 @@
 > **[目前已测试通过](#目前已测试通过)**  
 > **[感谢开发者](#感谢开发者)**
 
-##Composer安装
+## Composer安装
 ``` base
 $ composer require liaodeity/sync-login
 ```
 
-##key密钥配置
+## key密钥配置
 配置名称必须大写，名称与src/sdk的类名相同  
 如src/sdk/QqSDK.class.php的配置名前缀为QQ  
 
@@ -32,7 +32,7 @@ return [
 ];
 ```
 
-##获取登录跳转授权地址
+## 获取登录跳转授权地址
 设置好配置后，获取授权地址，自行进行调整操作即可
 ``` php
 //获取登录类型
@@ -47,7 +47,7 @@ try {
 }
 ```
 
-##授权后回调处理
+## 授权后回调处理
 接收参数，调用CallBack进行处理，将返回授权后获取的信息。  
 ``` php
 //获取传递参数值
@@ -64,7 +64,7 @@ try {
 }
 ```
 
-##Demo Example
+## Demo Example
 设置一个完整的demo调用方法
 ``` php 
 <?php
@@ -145,13 +145,13 @@ if (isset($_GET['code'])) {
 
 ```
 
-###目前已测试通过
+## 目前已测试通过
 * QQ互联
 * 新浪微博
 
 其他的由于没有申请key密钥，所以没办法测试，敬请谅解。但应该均可正常调用，如有问题请联系
 
-##联系作者 
+## 联系作者 
 联系邮箱：[liaodeity@gmail.com](mailto:liaodeity@gmail.com)  
 
 
