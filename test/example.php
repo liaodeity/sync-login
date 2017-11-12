@@ -9,9 +9,11 @@
 use Liaodeity\SyncLogin\CallBack;
 use Liaodeity\SyncLogin\ThinkOauth;
 
+//如果使用composer将不用进行手动导入类
 require_once '../src/ThinkOauth.php';
 require_once '../src/SyncLoginModel.php';
 require_once '../src/CallBack.php';
+
 
 error_reporting (E_ALL ^ E_NOTICE);
 
